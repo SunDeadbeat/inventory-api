@@ -1,0 +1,66 @@
+{
+    "swagger": "2.0",
+    "info": {
+      "version": "1.0.0",
+      "title": "Inventory API",
+      "description": "API para el manejo de inventario"
+    },
+    "host": "localhost:3000",
+    "basePath": "/api",
+    "schemes": ["http", "https"],
+    "paths": {
+      "/products": {
+        "get": {
+          "summary": "Listar todos los productos",
+          "description": "Obtiene una lista de todos los productos",
+          "parameters": [{
+            "name": "filter",
+            "in": "query",
+            "description": "Filtro de productos",
+            "required": false,
+            "type": "string",
+            "default": "{}",
+            "example": "{\"category\": \"Cocina\", \"price\": 1000}"
+          }, {
+            "name": "page",
+            "in": "query",
+            "description": "Número de página",
+            "required": false,
+            "type": "integer"
+          }, {
+            "name": "limit",
+            "in": "query",
+            "description": "Número de productos por página",
+            "required": false,
+            "type": "integer"
+          }],
+          "responses": {
+            "200": {
+              "description": "Lista de productos"
+            }
+          }
+        }
+      },
+      "/products/{id}": {
+        "get": {
+          "summary": "Obtener un producto",
+          "description": "Obtiene un producto por su ID",
+          "parameters": [{
+            "name": "id",
+            "in": "path",
+            "description": "ID del producto",
+            "required": true,
+            "type": "string"
+          }],
+          "responses": {
+            "200": {
+              "description": "Producto encontrado"
+            },
+            "404": {
+              "description": "Producto no encontrado"
+            }
+          }
+        }
+      }
+    }
+  }
