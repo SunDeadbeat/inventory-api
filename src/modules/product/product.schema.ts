@@ -16,7 +16,6 @@ const schema = new Schema<Product>({
     category: { type: String, required: true, index: true },
     price: { type: Number, required: true, index: true, min: 0 },
     sku: { type: String, required: true },
-
 }, {
     collection: 'product',
     timestamps: true,
