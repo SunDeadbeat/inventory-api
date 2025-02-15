@@ -10,7 +10,7 @@ export interface Inventory {
 
 const schema = new Schema<Inventory>({
     id: { type: String, required: true, unique: true },
-    productId: { type: String, required: true },
+    productId: { type: String, required: true, ref: 'product' },
     storeId: { type: String, required: true },
     quantity: { type: Number, required: true, min: 0 },
     minStock: { type: Number, required: true, min: 0 },
