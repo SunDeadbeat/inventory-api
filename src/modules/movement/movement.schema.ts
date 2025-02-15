@@ -13,9 +13,9 @@ export interface Movement {
 
 const schema = new Schema<Movement>({
     id: { type: String, required: true, unique: true },
-    productId: { type: String, required: true },
-    sourceStoreId: { type: String, required: true },
-    targetStoreId: { type: String, required: true },
+    productId: { type: String, required: true, ref: 'product' },
+    sourceStoreId: { type: String, required: true, ref: 'inventory' },
+    targetStoreId: { type: String, required: true, ref: 'inventory' },
     quantity: { type: Number, required: true, min: 0 },
     timestamp: { type: Date, required: true },
     type: { type: String, required: true, enum: Object.values(MovementType) },
