@@ -1,66 +1,192 @@
 {
-    "swagger": "2.0",
-    "info": {
-      "version": "1.0.0",
-      "title": "Inventory API",
-      "description": "API para el manejo de inventario"
-    },
-    "host": "localhost:3000",
-    "basePath": "/api",
-    "schemes": ["http", "https"],
-    "paths": {
-      "/products": {
-        "get": {
-          "summary": "Listar todos los productos",
-          "description": "Obtiene una lista de todos los productos",
-          "parameters": [{
-            "name": "filter",
-            "in": "query",
-            "description": "Filtro de productos",
-            "required": false,
-            "type": "string",
-            "default": "{}",
-            "example": "{\"category\": \"Cocina\", \"price\": 1000}"
-          }, {
-            "name": "page",
-            "in": "query",
-            "description": "Número de página",
-            "required": false,
-            "type": "integer"
-          }, {
-            "name": "limit",
-            "in": "query",
-            "description": "Número de productos por página",
-            "required": false,
-            "type": "integer"
-          }],
-          "responses": {
-            "200": {
-              "description": "Lista de productos"
-            }
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "Inventory API",
+    "description": "API para el manejo de inventario"
+  },
+  "host": "localhost:3000",
+  "basePath": "/api",
+  "schemes": ["http", "https"],
+  "paths": {
+    "/products": {
+      "get": {
+        "summary": "Listar todos los productos",
+        "description": "Obtiene una lista de todos los productos",
+        "parameters": [{
+          "name": "filter",
+          "in": "query",
+          "description": "Filtro de productos",
+          "required": false,
+          "type": "string",
+          "default": "{}",
+          "example": "{\"category\": \"Cocina\", \"price\": 1000}"
+        }, {
+          "name": "page",
+          "in": "query",
+          "description": "Número de página",
+          "required": false,
+          "type": "integer"
+        }, {
+          "name": "limit",
+          "in": "query",
+          "description": "Número de productos por página",
+          "required": false,
+          "type": "integer"
+        }],
+        "responses": {
+          "200": {
+            "description": "Lista de productos"
           }
         }
       },
-      "/products/{id}": {
-        "get": {
-          "summary": "Obtener un producto",
-          "description": "Obtiene un producto por su ID",
-          "parameters": [{
-            "name": "id",
-            "in": "path",
-            "description": "ID del producto",
-            "required": true,
-            "type": "string"
-          }],
-          "responses": {
-            "200": {
-              "description": "Producto encontrado"
-            },
-            "404": {
-              "description": "Producto no encontrado"
-            }
+      "post": {
+        "summary": "Crear un producto",
+        "description": "Crea un nuevo producto",
+        "parameters": [{
+          "name": "product",
+          "in": "body",
+          "description": "Producto a crear",
+          "required": true,
+          "schema": {
+            "$ref": "#/definitions/Product"
+          }
+        }],
+        "responses": {
+          "201": {
+            "description": "Producto creado"
+          }
+        }
+      }
+    },
+    "/products/{id}": {
+      "get": {
+        "summary": "Obtener un producto",
+        "description": "Obtiene un producto por su ID",
+        "parameters": [{
+          "name": "id",
+          "in": "path",
+          "description": "ID del producto",
+          "required": true,
+          "type": "string"
+        }],
+        "responses": {
+          "200": {
+            "description": "Producto encontrado"
+          },
+          "404": {
+            "description": "Producto no encontrado"
+          }
+        }
+      },
+      "put": {
+        "summary": "Actualizar un producto",
+        "description": "Actualiza un producto por su ID",
+        "parameters": [{
+          "name": "id",
+          "in": "path",
+          "description": "ID del producto",
+          "required": true,
+          "type": "string"
+        }, {
+          "name": "product",
+          "in": "body",
+          "description": "Producto a actualizar",
+          "required": true,
+          "schema": {
+            "$ref": "#/definitions/Product"
+          }
+        }],
+        "responses": {
+          "200": {
+            "description": "Producto actualizado"
+          },
+          "404": {
+            "description": "Producto no encontrado"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Eliminar un producto",
+        "description": "Elimina un producto por su ID",
+        "parameters": [{
+          "name": "id",
+          "in": "path",
+          "description": "ID del producto",
+          "required": true,
+          "type": "string"
+        }],
+        "responses": {
+          "204": {
+            "description": "Producto eliminado"
+          },
+          "404": {
+            "description": "Producto no encontrado"
+          }
+        }
+      }
+    },
+    "/stores/{storeId}/inventory": {
+      "get": {
+        "summary": "Listar inventario de una tienda",
+        "description": "Obtiene una lista de productos en el inventario de una tienda",
+        "parameters": [{
+          "name": "storeId",
+          "in": "path",
+          "description": "ID de la tienda",
+          "required": true,
+          "type": "string"
+        }, {
+          "name": "page",
+          "in": "query",
+          "description": "Número de página",
+          "required": false,
+          "type": "integer"
+        }, {
+          "name": "limit",
+          "in": "query",
+          "description": "Número de productos por página",
+          "required": false,
+          "type": "integer"
+        }],
+        "responses": {
+          "200": {
+            "description": "Lista de productos en el inventario"
           }
         }
       }
     }
+  },
+  "definitions": {
+    "Product": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "example": "123"
+        },
+        "name": {
+          "type": "string",
+          "example": "Licuadora"
+        },
+        "description": {
+          "type": "string",
+          "example": "Licuadora Oster"
+        },
+        "category": {
+          "type": "string",
+          "example": "Cocina"
+        },
+        "price": {
+          "type": "number",
+          "example": 1000
+        },
+        "sku": {
+          "type": "string",
+          "example": "SKU-123"
+        }
+      },
+      "required": ["id", "name", "description", "category", "price", "sku"]
+    }
   }
+}
